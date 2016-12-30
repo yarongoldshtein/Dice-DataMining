@@ -26,22 +26,27 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="RouletteNum" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Spin" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="RollNum" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="RollB" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="RouletteNum" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="Spin" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="422" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="analyzeR" min="-2" max="-2" attributes="0"/>
+                  <Component id="analyzeDice" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="166" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,12 +58,14 @@
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RollNum" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RollB" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="analyzeDice" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RouletteNum" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Spin" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="analyzeR" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="275" max="32767" attributes="0"/>
           </Group>
@@ -106,6 +113,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SpinActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="analyzeDice">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="analyze Dice"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="analyzeDiceActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="analyzeR">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="analyze Roulette"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="analyzeRActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -5,8 +5,12 @@
  */
 package datamining;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  *
@@ -36,6 +40,8 @@ public class gui extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         RouletteNum = new javax.swing.JTextField();
         Spin = new javax.swing.JButton();
+        analyzeDice = new javax.swing.JButton();
+        analyzeR = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,6 +77,20 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        analyzeDice.setText("analyze Dice");
+        analyzeDice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyzeDiceActionPerformed(evt);
+            }
+        });
+
+        analyzeR.setText("analyze Roulette");
+        analyzeR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyzeRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,18 +99,22 @@ public class gui extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Spin))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(RollNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(RollB)))
-                .addContainerGap(422, Short.MAX_VALUE))
+                        .addComponent(RollB))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Spin)))
+                .addGap(129, 129, 129)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(analyzeR)
+                    .addComponent(analyzeDice))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,12 +123,14 @@ public class gui extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(RollNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RollB))
+                    .addComponent(RollB)
+                    .addComponent(analyzeDice))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Spin))
+                    .addComponent(Spin)
+                    .addComponent(analyzeR))
                 .addContainerGap(275, Short.MAX_VALUE))
         );
 
@@ -122,8 +148,14 @@ public class gui extends javax.swing.JFrame {
     private void RollBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RollBActionPerformed
         try {
             PrintWriter writer = new PrintWriter("Dice.txt");
+            int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RollNum.getText()); i++) {
+                if (downRow == 100) {
+                    writer.println();
+                    downRow = 0;
+                }
                 writer.print((int) (Math.random() * 6 + 1) + ",");
+                downRow++;
             }
             writer.close();
         } catch (IOException e) {
@@ -134,13 +166,88 @@ public class gui extends javax.swing.JFrame {
     private void SpinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpinActionPerformed
         try {
             PrintWriter writer = new PrintWriter("Roulette.txt");
+            int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RouletteNum.getText()); i++) {
-                writer.print((int) (Math.random() * 37 ) + ",");
+                if (downRow == 100) {
+                    writer.println();
+                    downRow = 0;
+                }
+                writer.print((int) (Math.random() * 37) + ",");
+                downRow++;
             }
             writer.close();
         } catch (IOException e) {
             // do something
         }    }//GEN-LAST:event_SpinActionPerformed
+
+    private void analyzeDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeDiceActionPerformed
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("Dice.txt"));
+            try {
+                String line;
+                int[] count = new int[6];
+                while ((line = br.readLine()) != null) {
+                    String[] words = line.split(",");
+                    for (int i = 0; i < words.length; i++) {
+                        int number = Integer.parseInt(words[i]);
+                        count[number - 1]++;
+                    }
+                }
+                br.close();
+                PrintWriter writer = new PrintWriter("Dice Results.txt");
+                writer.println(Arrays.toString(count));
+                int avg = Integer.parseInt(RollNum.getText()) / 6;
+                int sigma = (int) Math.sqrt((Math.pow((avg - count[0]), 2) + Math.pow((avg - count[1]), 2) + Math.pow((avg - count[2]), 2) + Math.pow((avg - count[3]), 2) + Math.pow((avg - count[4]), 2) + Math.pow((avg - count[5]), 2)) / 6)+1;
+                boolean isFair = true;
+                for (int i = 0; i < count.length; i++) {
+                    if (count[i] + sigma < avg) {
+                        isFair = false;
+                    } else if (count[i] - sigma >  avg) {
+                        isFair = false;
+                    }
+                }
+                writer.println("sigma = " + sigma + " avg = " + avg);
+                writer.println(isFair);
+                System.out.println(isFair);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            //e.printStackTrace();
+            System.err.println("Eror: need 'Dice.txt' file");
+        }
+    }//GEN-LAST:event_analyzeDiceActionPerformed
+
+    private void analyzeRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeRActionPerformed
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("Roulette.txt"));
+            try {
+                String line;
+                int[] count = new int[37];
+                while ((line = br.readLine()) != null) {
+                    String[] words = line.split(",");
+                    for (int i = 0; i < words.length; i++) {
+                        int number = Integer.parseInt(words[i]);
+                        count[number]++;
+                    }
+                }
+                br.close();
+                PrintWriter writer = new PrintWriter("Roulette Results.txt");
+                writer.println(Arrays.toString(count));
+
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            //e.printStackTrace();
+            System.err.println("Eror: need 'Roulette.txt' file");
+        }
+
+    }//GEN-LAST:event_analyzeRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,6 +289,8 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JTextField RollNum;
     private javax.swing.JTextField RouletteNum;
     private javax.swing.JButton Spin;
+    private javax.swing.JButton analyzeDice;
+    private javax.swing.JButton analyzeR;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
