@@ -6,17 +6,27 @@
 package datamining;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /**
  *
  * @author yaron
  */
 public class gui extends javax.swing.JFrame {
+
+    String path = null;
 
     /**
      * Creates new form gui
@@ -42,6 +52,20 @@ public class gui extends javax.swing.JFrame {
         Spin = new javax.swing.JButton();
         analyzeDice = new javax.swing.JButton();
         analyzeR = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        errorT = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        DiceResultT = new javax.swing.JTextField();
+        RouletteResultT = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        browseB = new javax.swing.JButton();
+        chooseT = new javax.swing.JTextField();
+        sequenceDice = new javax.swing.JButton();
+        sequenceRoulette = new javax.swing.JButton();
+        longestDice = new javax.swing.JTextField();
+        longestRoulette = new javax.swing.JTextField();
+        longestDResult = new javax.swing.JTextField();
+        longestRResult = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,6 +115,50 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Approximation error:");
+
+        errorT.setText("1");
+        errorT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                errorTActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("%");
+
+        DiceResultT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DiceResultTActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Choose file:");
+
+        browseB.setText("browse ");
+        browseB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseBActionPerformed(evt);
+            }
+        });
+
+        sequenceDice.setText("longest sequence Dice");
+        sequenceDice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sequenceDiceActionPerformed(evt);
+            }
+        });
+
+        sequenceRoulette.setText("longest sequence Roulette");
+        sequenceRoulette.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sequenceRouletteActionPerformed(evt);
+            }
+        });
+
+        longestDice.setText("1");
+
+        longestRoulette.setText("1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,12 +177,44 @@ public class gui extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Spin)))
-                .addGap(129, 129, 129)
+                        .addComponent(Spin))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorT, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)))
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(analyzeR)
-                    .addComponent(analyzeDice))
-                .addContainerGap(166, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseB)
+                        .addGap(28, 28, 28)
+                        .addComponent(chooseT, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(analyzeR)
+                            .addComponent(analyzeDice))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DiceResultT, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RouletteResultT, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sequenceDice)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(longestDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sequenceRoulette)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(longestRoulette, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(longestDResult)
+                            .addComponent(longestRResult, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,14 +224,41 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(RollNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(RollB)
-                    .addComponent(analyzeDice))
+                    .addComponent(jLabel5)
+                    .addComponent(browseB)
+                    .addComponent(chooseT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Spin)
-                    .addComponent(analyzeR))
-                .addContainerGap(275, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(errorT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(analyzeDice)
+                            .addComponent(DiceResultT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(analyzeR)
+                    .addComponent(RouletteResultT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sequenceDice)
+                    .addComponent(longestDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(longestDResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sequenceRoulette)
+                    .addComponent(longestRoulette, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(longestRResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,6 +274,7 @@ public class gui extends javax.swing.JFrame {
 
     private void RollBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RollBActionPerformed
         try {
+            DiceResultT.setText("");
             PrintWriter writer = new PrintWriter("Dice.txt");
             int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RollNum.getText()); i++) {
@@ -154,7 +282,10 @@ public class gui extends javax.swing.JFrame {
                     writer.println();
                     downRow = 0;
                 }
-                writer.print((int) (Math.random() * 6 + 1) + ",");
+                Random r = new SecureRandom();
+                int rand = r.nextInt();
+                int x = Math.abs(rand % 6) + 1;
+                writer.print(x + ",");
                 downRow++;
             }
             writer.close();
@@ -165,6 +296,7 @@ public class gui extends javax.swing.JFrame {
 
     private void SpinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpinActionPerformed
         try {
+            RouletteResultT.setText("");
             PrintWriter writer = new PrintWriter("Roulette.txt");
             int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RouletteNum.getText()); i++) {
@@ -182,7 +314,12 @@ public class gui extends javax.swing.JFrame {
 
     private void analyzeDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeDiceActionPerformed
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Dice.txt"));
+            BufferedReader br;
+            if (path == null) {
+                br = new BufferedReader(new FileReader("Dice.txt"));
+            } else {
+                br = new BufferedReader(new FileReader(path));
+            }
             try {
                 String line;
                 int[] count = new int[6];
@@ -193,22 +330,37 @@ public class gui extends javax.swing.JFrame {
                         count[number - 1]++;
                     }
                 }
+                double[] result = new double[6];
+                for (int i = 0; i < count.length; i++) {
+                    result[i] = count[i] / Double.parseDouble(RollNum.getText());
+                }
+                double tohelet = 0;
+                for (int i = 0; i < result.length; i++) {
+                    tohelet += (result[i] * (i + 1));
+                }
+                String[] percentage = new String[6];
+                for (int i = 0; i < percentage.length; i++) {
+                    percentage[i] = String.format("%.3f", result[i]);
+                }
                 br.close();
                 PrintWriter writer = new PrintWriter("Dice Results.txt");
-                writer.println(Arrays.toString(count));
-                int avg = Integer.parseInt(RollNum.getText()) / 6;
-                int sigma = (int) Math.sqrt((Math.pow((avg - count[0]), 2) + Math.pow((avg - count[1]), 2) + Math.pow((avg - count[2]), 2) + Math.pow((avg - count[3]), 2) + Math.pow((avg - count[4]), 2) + Math.pow((avg - count[5]), 2)) / 6)+1;
                 boolean isFair = true;
+                double epsilon = 0.01 * Integer.parseInt(errorT.getText());
                 for (int i = 0; i < count.length; i++) {
-                    if (count[i] + sigma < avg) {
-                        isFair = false;
-                    } else if (count[i] - sigma >  avg) {
+                    if ((tohelet > 3.5 + epsilon) || (tohelet < 3.5 - epsilon)) {
                         isFair = false;
                     }
                 }
-                writer.println("sigma = " + sigma + " avg = " + avg);
-                writer.println(isFair);
-                System.out.println(isFair);
+                if (isFair) {
+                    DiceResultT.setText("the Dice is fair");
+                    writer.println("the Dice is fair");
+                    writer.println("Distribution of results: (in percentage)" + Arrays.toString(percentage));
+                } else {
+                    DiceResultT.setText("the Dice isn't fair");
+                    writer.println("the Dice isn't fair");
+                    writer.println("Distribution of results: (in percentage)" + Arrays.toString(percentage));
+                }
+
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -222,7 +374,12 @@ public class gui extends javax.swing.JFrame {
 
     private void analyzeRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeRActionPerformed
         try {
-            BufferedReader br = new BufferedReader(new FileReader("Roulette.txt"));
+            BufferedReader br;
+            if (path == null) {
+                br = new BufferedReader(new FileReader("Roulette.txt"));
+            } else {
+                br = new BufferedReader(new FileReader(path));
+            }
             try {
                 String line;
                 int[] count = new int[37];
@@ -235,8 +392,34 @@ public class gui extends javax.swing.JFrame {
                 }
                 br.close();
                 PrintWriter writer = new PrintWriter("Roulette Results.txt");
-                writer.println(Arrays.toString(count));
-
+                double[] result = new double[37];
+                for (int i = 0; i < count.length; i++) {
+                    result[i] = count[i] / Double.parseDouble(RouletteNum.getText());
+                }
+                double tohelet = 0;
+                for (int i = 0; i < result.length; i++) {
+                    tohelet += (result[i] * i);
+                }
+                String[] percentage = new String[37];
+                for (int i = 0; i < percentage.length; i++) {
+                    percentage[i] = String.format("%.3f", result[i]);
+                }
+                boolean isFair = true;
+                double epsilon = 0.025 * Integer.parseInt(errorT.getText());
+                for (int i = 0; i < count.length; i++) {
+                    if ((tohelet > 18 + epsilon) || (tohelet < 18 - epsilon)) {
+                        isFair = false;
+                    }
+                }
+                if (isFair) {
+                    RouletteResultT.setText("the Roulette is fair");
+                    writer.println("the Roulette is fair");
+                    writer.println("Distribution of results: (in percentage)" + Arrays.toString(percentage));
+                } else {
+                    RouletteResultT.setText("the Roulette isn't fair");
+                    writer.println("the Roulette isn't fair");
+                    writer.println("Distribution of results: (in percentage)" + Arrays.toString(percentage));
+                }
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -248,6 +431,110 @@ public class gui extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_analyzeRActionPerformed
+
+    private void errorTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_errorTActionPerformed
+
+    private void browseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseBActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        path = file.getAbsolutePath();
+        chooseT.setText(path);
+    }//GEN-LAST:event_browseBActionPerformed
+
+    private void DiceResultTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiceResultTActionPerformed
+
+    }//GEN-LAST:event_DiceResultTActionPerformed
+
+    private void sequenceDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceDiceActionPerformed
+        try {
+            BufferedReader br;
+            if (path == null) {
+                br = new BufferedReader(new FileReader("Dice.txt"));
+            } else {
+                br = new BufferedReader(new FileReader(path));
+            }
+            String line;
+            int count = 0, max = 0;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split(",");
+                if (Integer.parseInt(words[0]) != Integer.parseInt(longestDice.getText())) {
+                    count = 0;
+                }
+                for (int i = 0; i < words.length; i++) {
+                    if (Integer.parseInt(words[i]) == Integer.parseInt(longestDice.getText())) {
+                        count++;
+                        for (int j = i + 1; j < words.length; j++) {
+                            if (Integer.parseInt(words[j]) == Integer.parseInt(longestDice.getText())) {
+                                count++;
+                                i = j + 1;
+                            } else {
+                                i = j + 1;
+                                max = Math.max(max, count);
+                                count = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            br.close();
+            longestDResult.setText("the longest sequence of " + longestDice.getText() + " is: " + max);
+
+            PrintWriter writer = new PrintWriter(new FileWriter("Dice Results.txt", true));
+            writer.append("the longest sequence of " + longestDice.getText() + " is: " + max);
+            writer.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sequenceDiceActionPerformed
+
+    private void sequenceRouletteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceRouletteActionPerformed
+        try {
+            BufferedReader br;
+            if (path == null) {
+                br = new BufferedReader(new FileReader("Roulette.txt"));
+            } else {
+                br = new BufferedReader(new FileReader(path));
+            }
+            String line;
+            int count = 0, max = 0;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split(",");
+                if (Integer.parseInt(words[0]) != Integer.parseInt(longestRoulette.getText())) {
+                    count = 0;
+                }
+                for (int i = 0; i < words.length; i++) {
+                    if (Integer.parseInt(words[i]) == Integer.parseInt(longestRoulette.getText())) {
+                        count++;
+                        for (int j = i + 1; j < words.length; j++) {
+                            if (Integer.parseInt(words[j]) == Integer.parseInt(longestRoulette.getText())) {
+                                count++;
+                                i = j + 1;
+                            } else {
+                                i = j + 1;
+                                max = Math.max(max, count);
+                                count = 0;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            br.close();
+            longestRResult.setText("the longest sequence of " + longestRoulette.getText() + " is: " + max);
+
+            PrintWriter writer = new PrintWriter(new FileWriter("Roulette Results.txt", true));
+            writer.append("the longest sequence of " + longestDice.getText() + " is: " + max);
+            writer.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sequenceRouletteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,13 +572,27 @@ public class gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField DiceResultT;
     private javax.swing.JButton RollB;
     private javax.swing.JTextField RollNum;
     private javax.swing.JTextField RouletteNum;
+    private javax.swing.JTextField RouletteResultT;
     private javax.swing.JButton Spin;
     private javax.swing.JButton analyzeDice;
     private javax.swing.JButton analyzeR;
+    private javax.swing.JButton browseB;
+    private javax.swing.JTextField chooseT;
+    private javax.swing.JTextField errorT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField longestDResult;
+    private javax.swing.JTextField longestDice;
+    private javax.swing.JTextField longestRResult;
+    private javax.swing.JTextField longestRoulette;
+    private javax.swing.JButton sequenceDice;
+    private javax.swing.JButton sequenceRoulette;
     // End of variables declaration//GEN-END:variables
 }
