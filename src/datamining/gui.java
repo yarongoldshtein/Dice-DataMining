@@ -19,6 +19,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -26,7 +27,8 @@ import javax.swing.JFileChooser;
  */
 public class gui extends javax.swing.JFrame {
 
-    String path = null;
+    String pathD = null;
+    String pathR = null;
 
     /**
      * Creates new form gui
@@ -43,6 +45,7 @@ public class gui extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jLabel1 = new javax.swing.JLabel();
         RollNum = new javax.swing.JTextField();
@@ -66,8 +69,14 @@ public class gui extends javax.swing.JFrame {
         longestRoulette = new javax.swing.JTextField();
         longestDResult = new javax.swing.JTextField();
         longestRResult = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        browseB1 = new javax.swing.JButton();
+        chooseT1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("ANALYZER"), this, org.jdesktop.beansbinding.BeanProperty.create("title"));
+        bindingGroup.addBinding(binding);
 
         jLabel1.setText("Roll the Dice");
 
@@ -132,7 +141,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Choose file:");
+        jLabel5.setText("Choose file for dice:");
 
         browseB.setText("browse ");
         browseB.addActionListener(new java.awt.event.ActionListener() {
@@ -158,6 +167,15 @@ public class gui extends javax.swing.JFrame {
         longestDice.setText("1");
 
         longestRoulette.setText("1");
+
+        jLabel6.setText("Choose file for roulette:");
+
+        browseB1.setText("browse ");
+        browseB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseB1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,7 +231,13 @@ public class gui extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(longestDResult)
-                            .addComponent(longestRResult, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE))))
+                            .addComponent(longestRResult, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(browseB1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chooseT1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -231,7 +255,10 @@ public class gui extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RouletteNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Spin)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel6)
+                    .addComponent(browseB1)
+                    .addComponent(chooseT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -260,6 +287,8 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(longestRResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(88, Short.MAX_VALUE))
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -315,10 +344,10 @@ public class gui extends javax.swing.JFrame {
     private void analyzeDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeDiceActionPerformed
         try {
             BufferedReader br;
-            if (path == null) {
+            if (pathD == null) {
                 br = new BufferedReader(new FileReader("Dice.txt"));
             } else {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(pathD));
             }
             try {
                 String line;
@@ -375,10 +404,10 @@ public class gui extends javax.swing.JFrame {
     private void analyzeRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeRActionPerformed
         try {
             BufferedReader br;
-            if (path == null) {
+            if (pathR == null) {
                 br = new BufferedReader(new FileReader("Roulette.txt"));
             } else {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(pathR));
             }
             try {
                 String line;
@@ -438,10 +467,15 @@ public class gui extends javax.swing.JFrame {
 
     private void browseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseBActionPerformed
         JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
+        FileNameExtensionFilter fileExtensionFilter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        chooser.setFileFilter(fileExtensionFilter);
+        chooser.setDialogTitle("Open");
+        int NOTC = chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile();
-        path = file.getAbsolutePath();
-        chooseT.setText(path);
+        if (NOTC == JFileChooser.APPROVE_OPTION) {
+            pathD = file.getAbsolutePath();
+            chooseT.setText(pathD);
+        }
     }//GEN-LAST:event_browseBActionPerformed
 
     private void DiceResultTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiceResultTActionPerformed
@@ -451,10 +485,10 @@ public class gui extends javax.swing.JFrame {
     private void sequenceDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceDiceActionPerformed
         try {
             BufferedReader br;
-            if (path == null) {
+            if (pathD == null) {
                 br = new BufferedReader(new FileReader("Dice.txt"));
             } else {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(pathD));
             }
             String line;
             int count = 0, max = 0;
@@ -495,10 +529,10 @@ public class gui extends javax.swing.JFrame {
     private void sequenceRouletteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceRouletteActionPerformed
         try {
             BufferedReader br;
-            if (path == null) {
+            if (pathR == null) {
                 br = new BufferedReader(new FileReader("Roulette.txt"));
             } else {
-                br = new BufferedReader(new FileReader(path));
+                br = new BufferedReader(new FileReader(pathR));
             }
             String line;
             int count = 0, max = 0;
@@ -536,6 +570,22 @@ public class gui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_sequenceRouletteActionPerformed
 
+    private void browseB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseB1ActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter fileExtensionFilter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        chooser.setFileFilter(fileExtensionFilter);
+        chooser.setDialogTitle("Open");
+        int NOTC = chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        if (NOTC == JFileChooser.APPROVE_OPTION) {
+            pathR = file.getAbsolutePath();
+            chooseT1.setText(pathR);
+    }//GEN-LAST:event_browseB1ActionPerformed
+    }
+
+    /**
+     * @param args the command line arguments
+     */
     /**
      * @param args the command line arguments
      */
@@ -581,18 +631,22 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton analyzeDice;
     private javax.swing.JButton analyzeR;
     private javax.swing.JButton browseB;
+    private javax.swing.JButton browseB1;
     private javax.swing.JTextField chooseT;
+    private javax.swing.JTextField chooseT1;
     private javax.swing.JTextField errorT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField longestDResult;
     private javax.swing.JTextField longestDice;
     private javax.swing.JTextField longestRResult;
     private javax.swing.JTextField longestRoulette;
     private javax.swing.JButton sequenceDice;
     private javax.swing.JButton sequenceRoulette;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
