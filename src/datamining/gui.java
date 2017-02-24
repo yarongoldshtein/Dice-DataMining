@@ -60,13 +60,16 @@ public class gui extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         analyzeDice = new javax.swing.JButton();
         sequenceDice = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        errorTD = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         RouletteNum = new javax.swing.JTextField();
         Spin = new javax.swing.JButton();
         analyzeR = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        errorT = new javax.swing.JTextField();
+        errorTR = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         RouletteResultT = new javax.swing.JTextField();
         sequenceRoulette = new javax.swing.JButton();
@@ -128,6 +131,12 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Approximation error:");
+
+        errorTD.setText("1");
+
+        jLabel8.setText("%");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -135,6 +144,13 @@ public class gui extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(errorTD, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -173,7 +189,12 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(browseB)
                     .addComponent(chooseT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(errorTD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(analyzeDice)
                     .addComponent(DiceResultT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -182,7 +203,7 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(sequenceDice)
                     .addComponent(longestDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(longestDResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Dice", jPanel1);
@@ -212,10 +233,10 @@ public class gui extends javax.swing.JFrame {
 
         jLabel3.setText("Approximation error:");
 
-        errorT.setText("1");
-        errorT.addActionListener(new java.awt.event.ActionListener() {
+        errorTR.setText("1");
+        errorTR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                errorTActionPerformed(evt);
+                errorTRActionPerformed(evt);
             }
         });
 
@@ -271,7 +292,7 @@ public class gui extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(errorT, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(errorTR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)))
                 .addContainerGap(96, Short.MAX_VALUE))
@@ -290,7 +311,7 @@ public class gui extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(errorT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(errorTR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -403,7 +424,7 @@ public class gui extends javax.swing.JFrame {
                 br.close();
                 PrintWriter writer = new PrintWriter("Dice Results.txt");
                 boolean isFair = true;
-                double epsilon = 0.01 * Integer.parseInt(errorT.getText());
+                double epsilon = 0.01 * Double.parseDouble(errorTD.getText());
                 for (int i = 0; i < count.length; i++) {
                     if ((tohelet > 3.5 + epsilon) || (tohelet < 3.5 - epsilon)) {
                         isFair = false;
@@ -463,7 +484,7 @@ public class gui extends javax.swing.JFrame {
                     percentage[i] = String.format("%.3f", result[i]);
                 }
                 boolean isFair = true;
-                double epsilon = 0.025 * Integer.parseInt(errorT.getText());
+                double epsilon = 0.025 * Double.parseDouble(errorTR.getText());
                 for (int i = 0; i < count.length; i++) {
                     if ((tohelet > 18 + epsilon) || (tohelet < 18 - epsilon)) {
                         isFair = false;
@@ -490,9 +511,9 @@ public class gui extends javax.swing.JFrame {
 
     }//GEN-LAST:event_analyzeRActionPerformed
 
-    private void errorTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorTActionPerformed
+    private void errorTRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_errorTRActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_errorTActionPerformed
+    }//GEN-LAST:event_errorTRActionPerformed
 
     private void browseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseBActionPerformed
         File workingDirectory = new File(System.getProperty("user.dir"));
@@ -667,13 +688,16 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JButton browseB1;
     private javax.swing.JTextField chooseT;
     private javax.swing.JTextField chooseT1;
-    private javax.swing.JTextField errorT;
+    private javax.swing.JTextField errorTD;
+    private javax.swing.JTextField errorTR;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
