@@ -1,2 +1,6 @@
-the Dice is fair
-Distribution of results: (in percentage)[0.174, 0.163, 0.159, 0.171, 0.161, 0.172]
+the Dice isn't fair
+Distribution of results: (in percentage)[0.169, 0.168, 0.169, 0.162, 0.164, 0.168]
+
+the longest sequence of 1 is: 4
+the longest sequence of 2 is: 4
+the longest sequence of 3 is: 6

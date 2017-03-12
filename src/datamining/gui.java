@@ -175,12 +175,12 @@ public class gui extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(longestDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                                .addComponent(longestDResult, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(longestDResult, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(analyzeDice)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(DiceResultT, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(93, 93, 93)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addGap(105, 105, 105))))
         );
@@ -308,12 +308,12 @@ public class gui extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(longestRoulette, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(longestRResult, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(longestRResult))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(analyzeR)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(RouletteResultT, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(104, 104, 104))))
         );
@@ -379,6 +379,7 @@ public class gui extends javax.swing.JFrame {
     private void RollBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RollBActionPerformed
         try {
             DiceResultT.setText("");
+            longestDResult.setText("");
             PrintWriter writer = new PrintWriter("Dice.txt");
             int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RollNum.getText()); i++) {
@@ -401,6 +402,7 @@ public class gui extends javax.swing.JFrame {
     private void SpinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpinActionPerformed
         try {
             RouletteResultT.setText("");
+            longestRResult.setText("");
             PrintWriter writer = new PrintWriter("Roulette.txt");
             int downRow = 0;
             for (int i = 0; i < Integer.parseInt(RouletteNum.getText()); i++) {
@@ -557,6 +559,9 @@ public class gui extends javax.swing.JFrame {
 
     private void sequenceDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceDiceActionPerformed
         try {
+            int longestRouletteNum = Integer.parseInt(longestDice.getText());
+            if ((longestRouletteNum > 0) && (longestRouletteNum < 7)) {
+        try {
             BufferedReader br;
             if (pathD == null) {
                 br = new BufferedReader(new FileReader("Dice.txt"));
@@ -591,56 +596,71 @@ public class gui extends javax.swing.JFrame {
             longestDResult.setText("the longest sequence of " + longestDice.getText() + " is: " + max);
 
             PrintWriter writer = new PrintWriter(new FileWriter("Dice Results.txt", true));
-            writer.append("the longest sequence of " + longestDice.getText() + " is: " + max);
+            writer.append("\nthe longest sequence of " + longestDice.getText() + " is: " + max);
             writer.close();
 
         } catch (IOException ex) {
             longestDResult.setText("Eror: need 'Dice.txt' file");
         }
+        } else {
+                longestDResult.setText("Please enter an Integer between 1 to 6");
+            }
+        } catch (Exception e) {
+            longestDResult.setText("Please enter an Integer");
+        } 
     }//GEN-LAST:event_sequenceDiceActionPerformed
 
     private void sequenceRouletteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sequenceRouletteActionPerformed
         try {
-            BufferedReader br;
-            if (pathR == null) {
-                br = new BufferedReader(new FileReader("Roulette.txt"));
-            } else {
-                br = new BufferedReader(new FileReader(pathR));
-            }
-            String line;
-            int count = 0, max = 0;
-            while ((line = br.readLine()) != null) {
-                String[] words = line.split(",");
-                if (Integer.parseInt(words[0]) != Integer.parseInt(longestRoulette.getText())) {
-                    count = 0;
-                }
-                for (int i = 0; i < words.length; i++) {
-                    if (Integer.parseInt(words[i]) == Integer.parseInt(longestRoulette.getText())) {
-                        count++;
-                        for (int j = i + 1; j < words.length; j++) {
-                            if (Integer.parseInt(words[j]) == Integer.parseInt(longestRoulette.getText())) {
+            int longestRouletteNum = Integer.parseInt(longestRoulette.getText());
+            if ((longestRouletteNum >= 0) && (longestRouletteNum < 37)) {
+                try {
+                    BufferedReader br;
+                    if (pathR == null) {
+                        br = new BufferedReader(new FileReader("Roulette.txt"));
+                    } else {
+                        br = new BufferedReader(new FileReader(pathR));
+                    }
+                    String line;
+                    int count = 0, max = 0;
+                    while ((line = br.readLine()) != null) {
+                        String[] words = line.split(",");
+                        if (Integer.parseInt(words[0]) != Integer.parseInt(longestRoulette.getText())) {
+                            count = 0;
+                        }
+                        for (int i = 0; i < words.length; i++) {
+                            if (Integer.parseInt(words[i]) == Integer.parseInt(longestRoulette.getText())) {
                                 count++;
-                                i = j + 1;
-                            } else {
-                                i = j + 1;
-                                max = Math.max(max, count);
-                                count = 0;
-                                break;
+                                for (int j = i + 1; j < words.length; j++) {
+                                    if (Integer.parseInt(words[j]) == Integer.parseInt(longestRoulette.getText())) {
+                                        count++;
+                                        i = j + 1;
+                                    } else {
+                                        i = j + 1;
+                                        max = Math.max(max, count);
+                                        count = 0;
+                                        break;
+                                    }
+                                }
                             }
                         }
                     }
+                    br.close();
+                    longestRResult.setText("the longest sequence of " + longestRoulette.getText() + " is: " + max);
+
+                    PrintWriter writer = new PrintWriter(new FileWriter("Roulette Results.txt", true));
+                    writer.append("\nthe longest sequence of " + longestDice.getText() + " is: " + max);
+                    writer.close();
+
+                } catch (IOException ex) {
+                    longestRResult.setText("Eror: need 'Roulette.txt' file");
                 }
+            } else {
+                longestRResult.setText("Please enter an Integer between 0 to 36");
             }
-            br.close();
-            longestRResult.setText("the longest sequence of " + longestRoulette.getText() + " is: " + max);
-
-            PrintWriter writer = new PrintWriter(new FileWriter("Roulette Results.txt", true));
-            writer.append("the longest sequence of " + longestDice.getText() + " is: " + max);
-            writer.close();
-
-        } catch (IOException ex) {
-            longestRResult.setText("Eror: need 'Roulette.txt' file");
-        }
+        } catch (Exception e) {
+            longestRResult.setText("Please enter an Integer");
+        } 
     }//GEN-LAST:event_sequenceRouletteActionPerformed
 
     private void browseB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseB1ActionPerformed
